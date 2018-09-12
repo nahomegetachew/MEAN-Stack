@@ -104,8 +104,35 @@ module.exports = (router) => {
         }
     });
 
-    router.get("/profile",(req,res)=>{
-        res.send("lxd");
+    router.use((req,res,next)=>{
+        const token = req.headers['authorization'];
+        if(!token){
+            res.json({ success : false, message : "No token providede"});
+        }else{
+            jwt.verify(token,"lxd", (err, decoded)=>{
+                if(err){
+                    res.json({success : false , message : "invalid token " + err});
+                }else{
+                    req.decoded = decoded;
+                    next();
+                }
+            })
+        }
     })
+
+    router.get("/profile",(req,res)=>{
+        User.findOne({_id : req.decoded.user}).select('username email').exec((err,user)=>{
+            if(err){
+                res.json({ success : false , message : err});
+            }else{
+                if(!user){
+                    res.json({success : false , message: "User not found man"});
+                }else{
+                    res.json({ success : true , user : user});
+                }
+            }
+        });
+        // res.send(req.decoded)
+    });
     return router;
 }

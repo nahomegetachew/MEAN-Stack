@@ -11,6 +11,11 @@ import { AuthService } from './services/auth.service';
 import { HttpModule } from '@angular/http';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { FlashMessagesModule } from 'angular2-flash-messages';
+import { AuthGuard } from './guards/auth.guard';
+import { notAuthGuard } from './guards/notAuth.guard';
+
+
 
 @NgModule({
   declarations: [
@@ -26,9 +31,10 @@ import { ProfileComponent } from './components/profile/profile.component';
     BrowserModule,
     AppRoutingModule,
     HttpModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FlashMessagesModule.forRoot()
   ],
-  providers: [AuthService],
+  providers: [AuthService,AuthGuard,notAuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
