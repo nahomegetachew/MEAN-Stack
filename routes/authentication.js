@@ -118,7 +118,7 @@ module.exports = (router) => {
                 }
             })
         }
-    })
+    });
 
     router.get("/profile",(req,res)=>{
         User.findOne({_id : req.decoded.user}).select('username email').exec((err,user)=>{

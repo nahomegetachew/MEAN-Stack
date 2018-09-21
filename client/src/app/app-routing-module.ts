@@ -7,6 +7,7 @@ import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AuthGuard } from './guards/auth.guard';
 import { notAuthGuard } from './guards/notAuth.guard';
+import  { BlogComponent } from './components/blog/blog.component';
 
 
 
@@ -31,6 +32,10 @@ const appRouts = [
     },
     {path: '',
     component: HomeComponent
+    },
+    {path : "blog",
+    component : BlogComponent,
+    canActivate : [AuthGuard]
     },
     {path: '**',
     component: HomeComponent
