@@ -15,6 +15,7 @@ import { FlashMessagesModule } from 'angular2-flash-messages';
 import { AuthGuard } from './guards/auth.guard';
 import { notAuthGuard } from './guards/notAuth.guard';
 import { BlogComponent } from './components/blog/blog.component';
+import { BlogService} from './services/blog.service';
 
 
 
@@ -36,7 +37,7 @@ import { BlogComponent } from './components/blog/blog.component';
     ReactiveFormsModule,
     FlashMessagesModule.forRoot()
   ],
-  providers: [AuthService,AuthGuard,notAuthGuard],
+  providers: [AuthService,AuthGuard,notAuthGuard,BlogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

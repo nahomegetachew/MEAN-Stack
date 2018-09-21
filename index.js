@@ -4,7 +4,10 @@ const router = express.Router();
 const mongoose =require('mongoose');
 const config = require('./config/database');
 const path = require('path');
+
 const authentication=require('./routes/authentication')(router);
+const blogs= require('./routes/blog')(router);
+
 const bodyparser = require('body-parser');
 var cors = require('cors')
 
@@ -24,6 +27,7 @@ app.use(cors({
 app.use(bodyparser.urlencoded({extended:false}));
 app.use(bodyparser.json());
 app.use('/authentication', authentication);
+app.use('/blogs',blogs);
 app.use(express.static(__dirname + '/client/dist/'));
 
 

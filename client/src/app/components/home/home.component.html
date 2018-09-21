@@ -3,8 +3,9 @@
   <p class="lead">Welcome to the MEAN Stack Application by <strong>David Acosta</strong></p>
   <p>Tutorial followed by Dylan Harrison</p>
   <div>
-    <a routerLink="/register" class="btn btn-primary">Register</a>
-    <a routerLink="/login" class="btn btn-default">Login</a>
+    <a *ngIf="!authService.loggedin()" routerLink="/register" class="btn btn-primary">Register</a>
+    <a *ngIf="!authService.loggedin()"routerLink="/login" class="btn btn-default">Login</a>
+    <a *ngIf="authService.loggedin()" routerLink="/blog" class="btn btn-success">View Blogs</a>
   </div>
 </div>
 
