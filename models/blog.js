@@ -7,7 +7,7 @@ let titleLenghtChecker = (title) => {
     if (!title) {
         return false;
     } else {
-        if (title.length < 5 || title.lenght > 50) {
+        if (title.length < 5 || title.length > 50) {
             return false;
         } else {
             return true;

@@ -48,5 +48,116 @@ module.exports = (router) => {
         }).sort({ '_id': -1 })
     });
 
+    router.get('/singleblog/:id', (req, res) => {
+        if (!req.params.id) {
+            res.json({ success: false, message: "No blog ID was provided." })
+        }
+        else {
+            Blog.findOne({ _id: req.params.id }, (err, blog) => {
+                if (err) {
+                    res.json({ success: false, message: "Not a valid blog id" });
+                } else {
+                    if (!blog) {
+                        res.json({ success: false, message: "Blog not found" });
+                    } else {
+                        User.findOne({ _id: req.decoded.user }, (err, user) => {
+                            if (err) {
+                                res.json({ success: false, message: err });
+                            } else {
+                                if (!user) {
+                                    res.json({ success: false, message: "Unable to authenticate user" });
+                                } else {
+                                    if (user.username !== blog.createdBy) {
+                                        res.json({ success: false, message: "you are not authorized to edit this blog" });
+                                    } else {
+                                        res.json({ success: true, blog: blog });
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    });
+
+    router.put('/updateblog', (req, res) => {
+        if (!req.body._id) {
+            res.json({ success: false, message: "No blog id provided" });
+        } else {
+            Blog.findOne({ _id: req.body._id }, (err, blog) => {
+                if (err) {
+                    res.json({ success: false, message: "Not a valid blog id" });
+                } else {
+                    if (!blog) {
+                        res.json({ success: false, message: "Blog id not found" });
+                    } else {
+                        User.findOne({ _id: req.decoded.user }, (err, user) => {
+                            if (err) {
+                                res.json({ success: false, message: err });
+                            } else {
+                                if (!user) {
+                                    res.json({ success: false, message: "Unable to authenticate user" });
+                                } else {
+                                    if (user.username !== blog.createdBy) {
+                                        res.json({ success: false, message: "you are not authorized to edit this blog" });
+                                    } else {
+                                        blog.title = req.body.title;
+                                        blog.body = req.body.body;
+                                        blog.save((err) => {
+                                            if (err) {
+                                                res.json({ success: false, message: err.errors[Object.keys(err.errors)[0]].message });
+                                            } else {
+                                                res.json({ success: true, message: "Blog Updated!" });
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    });
+
+    router.delete('/deletblog/:id',(req,res)=>{
+        if(!req.params.id){
+            res.json({success:false,message:"No id provided"});
+        }else{
+            Blog.findOne({_id:req.params.id},(err,blog)=>{
+                if (err) {
+                    res.json({success:false,message:"invalid id "});
+                }else{
+                    if(!blog){
+                        res.json({success:false,message:"id not found"});
+                    }else{
+                        User.findOne({_id:req.decoded.user},(err,user)=>{
+                            if (err) {
+                                res.json({success:false,message:err});
+                            }else{
+                                if (!user) {
+                                    res.json({success:false,message:"Unable to authenticate user"});
+                                }else{
+                                    if (user.username !== blog.createdBy) {
+                                        res.json({success:false,message:"You are not authorized to delete this blog post"});
+                                    }else{
+                                        blog.remove((err)=>{
+                                            if (err) {
+                                                res.json({success:false,message:err});
+                                            }else{
+                                                res.json({success:true,message:"Blog deleted!"});
+                                            }
+                                        })
+                                    }
+                                }
+                            }
+                        })
+                    }
+                }
+            })
+        }
+    });
+
     return router;
 };

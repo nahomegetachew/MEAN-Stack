@@ -1,12 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {AppRoutingModule} from './app-routing-module';
+import { AppRoutingModule } from './app-routing-module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from './services/auth.service';
 import { HttpModule } from '@angular/http';
 import { LoginComponent } from './components/login/login.component';
@@ -15,7 +16,9 @@ import { FlashMessagesModule } from 'angular2-flash-messages';
 import { AuthGuard } from './guards/auth.guard';
 import { notAuthGuard } from './guards/notAuth.guard';
 import { BlogComponent } from './components/blog/blog.component';
-import { BlogService} from './services/blog.service';
+import { BlogService } from './services/blog.service';
+import { EditBlogComponent } from './components/blog/edit-blog/edit-blog.component';
+import { DeleteBlogComponent } from './components/blog/delete-blog/delete-blog.component';
 
 
 
@@ -29,15 +32,18 @@ import { BlogService} from './services/blog.service';
     LoginComponent,
     ProfileComponent,
     BlogComponent,
+    EditBlogComponent,
+    DeleteBlogComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     HttpModule,
     ReactiveFormsModule,
     FlashMessagesModule.forRoot()
   ],
-  providers: [AuthService,AuthGuard,notAuthGuard,BlogService],
+  providers: [AuthService, AuthGuard, notAuthGuard, BlogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

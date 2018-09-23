@@ -35,4 +35,16 @@ export class BlogService {
     this.createAuthenticationHeaders();
     return this.http.get(this.doamin + 'blogs/allblogs',this.options).map(res=>res.json());
   }
+  getSingleBlog(id){
+    this.createAuthenticationHeaders();
+    return this.http.get(this.doamin + 'blogs/singleblog/' + id,this.options).map(res => res.json());
+  }
+  editBlog(blog){
+    this.createAuthenticationHeaders();
+    return this.http.put(this.doamin + 'blogs/updateblog/',blog,this.options).map(res=> res.json());
+  }
+  deleteBlog(id){
+    this.createAuthenticationHeaders();
+    return this.http.delete(this.doamin + 'blogs/deletblog/' + id,this.options).map(res=>res.json());
+  }
 }
